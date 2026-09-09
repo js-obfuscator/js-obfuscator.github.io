@@ -1,398 +1,251 @@
-<!DOCTYPE html>
-<html>
-
+<!doctype html>
+<html lang="en">
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <meta charset="utf-8">
-    <meta content="IE=edge" http-equiv="X-UA-Compatible">
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <title>Free Online JavaScript Obfuscator</title>
-    <meta name="description" content="Free Online JavaScript Obfuscator,a simple free online JavaScript obfuscation tool." />
-    <style>
-        *{
-            -webkit-box-sizing: border-box;
-            -moz-box-sizing: border-box;
-            box-sizing: border-box;
-        }
-        .text {
-            text-align: center;
-            font-family: lato, Sans-serif;
-            font-weight: 400;
-            letter-spacing: 2px;
-            font-size: 13px;
-            margin-top: 10px
-        }
-        .text-sub {
-            margin: 5px 50px;
-            line-height: 1.3;
-            font-size: 10px;
-            font-family: roboto condensed, sans-serif;
-            font-weight: 300;
-            text-align: center
-        }
-        .b1 {
-            padding-bottom: 30px;
-            padding-top: 5px;
-            margin: 0;
-            background: #f5f6f7;
-        }
-        .b2 {
-            padding-right: 15px;
-            padding-left: 15px;
-            margin-right: auto;
-            margin-left: auto;
-            width: auto;
-            max-width: 1170px;
-        }
-        .b3 {
-            margin: 10px auto;
-            max-width: 1000px;
-            max-width: 1200px;
-            border: 1px solid #ddd;
-            padding: 10px;
-            background-color: #fff;
-            box-shadow: rgba(50, 50, 93, .25) 0 -20px 40px -70px, rgba(0, 0, 0, .3) 0 40px 60px -30px
-        }
-        .d1 {
-            padding-top: 40px;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-        .t1 {
-            height: 150px;
-            width: 100%;
-            margin-top: 20px;
-            font-size: 12px;
-            resize: none;
-            border:1px solid #6f6f6f;
-            padding:4px;
-            outline:none;
-        }
-        .t1 {
-            height: 150px;
-            width: 100%;
-            margin-top: 20px;
-            font-size: 12px;
-            resize: none;
-            border:1px solid #6f6f6f;
-            padding:4px;
-            outline:none;
-        }
-        .e1 {
-            margin-top: 5px;
-            width: 100%;
-            font-size: 19px;
-            cursor: pointer;
-        }
-        a {
-            color: #191919;
-            text-decoration: none;
-        }
-        .ts1 {
-            margin-top: 22px;
-            margin-bottom: 30px;
-        }
-        .loading{
-            text-align: center; 
-            width: 430px; 
-            height:100px;
-            position: absolute; 
-            left: 50%; 
-            top: 50%; 
-            margin: -50px 0px 0px -215px; 
-            box-shadow: rgba(50, 50, 93, .35) 0 -20px 30px -70px, rgba(0, 0, 0, .3) 0 40px 20px -45px;
-            border: 1px solid #ddd;
-            padding-top: 39px;
-            background: #fff;
-        }
-        .load2{
-            font-size:12px;
-            padding-left:5px;
-        }
-        .l17{
-            padding: 5px;
-            cursor: pointer;
-            opacity: 0.7;
-        }
-        .l17:hover{
-            opacity: 1;
-        }
-        .btn2{
-            top: 20px;
-            position: relative;
-            border: 1px solid #bbb;
-            padding: 5px 10px 5px 10px;
-            height: 23px;
-            display: inline-block;
-            border-bottom: none;
-            cursor: pointer;
-            background: #eee;
-        }
-        .btn1{
-            top: 20px;
-            position: relative;
-            border: 1px solid #6f6f6f;
-            padding: 5px 10px 5px 10px;
-            height: 23px;
-            display: inline-block;
-            border-bottom: none;
-            cursor: pointer;
-            background: #fff;
-        }
-        .t1:focus{
-            border:1px solid #6f6f6f;
-            padding:4px;
-            outline:none;
-        }
-        .l220{
-            text-shadow: 1px 0px 1px #666666; font-weight:600; opacity:0.8; font-size:10px;
-        }
-        .l221{
-            opacity:0.6; 
-            padding-left: 2px;
-            padding-right:2px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A simple, private JavaScript obfuscation tool with configurable options and local processing.">
+  <meta name="theme-color" content="#f4f6fb">
+  <title>JS-Obfuscator — A Simple JavaScript Obfuscation Tool</title>
+  <link rel="stylesheet" href="./style.css">
 </head>
+<body class="is-loading">
+  <div class="page-loader" id="page-loader" role="status" aria-live="polite" aria-label="Loading JS-Obfuscator">
+    <div class="loader-prism" aria-hidden="true"><span>JS</span><i></i><b></b></div>
+    <strong>JS-Obfuscator</strong>
+    <p>Preparing the local obfuscation engine</p>
+    <div class="loader-progress" aria-hidden="true"><i></i></div>
+    <small>LOCAL RUNTIME / LOADING</small>
+  </div>
+  <div class="page-grid" aria-hidden="true"></div>
+  <div class="cursor-light" id="cursor-light" aria-hidden="true"></div>
 
-<body class="b1">
-    <div class="b2">
-        <div id="preview-card">
-            <div id="loading" class="loading">
-                <span>Free Online JavaScript Obfuscator</span>
-                <span class="load2">Loading...</span>
-            </div>
-            <div id="content" class="b3" style="display: none;">
-                <div class="d1" style="font-size: 23px;">
-                    Free Online <a href="https://www.js-obfuscator.com/" target="_blank" style="cursor: default;">JavaScript Obfuscator</a>
-                </div>
-                <div class="text" style="margin-top: 0px;">
-                    a simple JavaScript obfuscation tool
-                </div>
-                <div class="text-sub">
-                    <div style="text-align: left;">
-                        <span class="btn1" id="btn1" style="margin-left: 10px;" onclick="
-                            document.getElementById('btn1').className='btn1';
-                            document.getElementById('btn2').className='btn2';
-                            document.getElementById('code').style.display='block';
-                            document.getElementById('encode').style.display='none';
-                            ">JavaScript Code</span>
-                        <span class="btn2" id="btn2" onclick="
-                        document.getElementById('btn1').className='btn2';
-                        document.getElementById('btn2').className='btn1';
-                        document.getElementById('code').style.display='none';
-                        document.getElementById('encode').style.display='block';
-                        ">Obfuscated JavaScript Code</span>
-<textarea spellcheck="false" class="t1" placeholder="Please enter JavaScript code here..." id="code" style="display: block;">
-(function (){
-    var domain = "js-obfuscator.com";
-    var from_year = 2017;
-    var copyright = function(){
-        return "(c)" + from_year + "-" + (new Date).getFullYear() + "," + domain;
-    };
-    var console_log = console.log;
-    console_log(copyright())
-})();
-</textarea>
-<textarea spellcheck="false" class="t1" placeholder="Do obfuscate first..." id="encode" style="display: none;">
-</textarea>
-                    </div>
-                    <input type="file" id="read" style="display: none;" onchange="read();" accept=".js"/>
-                    <div style="opacity: 0.8; margin-top: 10px; text-align: left;">
-                        <span class="l17" onclick="clean();">Clear JavaScript code</span> |
-                        <span class="l17" onclick="document.getElementById('read').click();">Get JavaScript Code from file</span> |
-                        <span class="l17" onclick="save();">Save obfuscated JavaScript code</span><br>
-                    </div>
-                    <p style="text-align: left; font-size:16px;">
-                       Options
-                    </p>
-                    <p style="text-align: left; font-size: 9px;">
-                        <input type="checkbox" id="zombieCode" checked>Zombie Code<br>
-                        <span style="font-size: 13px;">
-                            var a=1; var b=2;
-                        </span>
-                        <span class="l221">becames</span>
-                        <span style="font-size: 16px;">
-                            <span class="l220">var _0x; </span>var a = 1;
-                            <span class="l220">_0x = "jfci";</span> var b = 2;
-                        </span>
-                    </p>
-                    <p style="text-align: left; font-size: 9px;">
-                        <input type="checkbox" id="regexpStandard" checked>Regexp Standard<br>
-                        <span style="font-size: 13px;">
-                            var regExp = <span class="l220">/hello/g</span>;
-                        </span>
-                        <span class="l221">becames</span>
-                        <span style="font-size: 16px;">
-                            var regExp = <span class="l220">new RegExp("hello", "g")</span>;
-                        </span>
-                    </p>
-                    <p style="text-align: left; font-size: 9px;">
-                        <input type="checkbox" id="jsonStandard" checked>JSON Standard<br>
-                        <span style="font-size: 13px;">
-                            var man = <span class="l220">{name:"tim", age:18}</span>;
-                        </span>
-                        <span class="l221">becames</span>
-                        <span style="font-size: 16px;">
-                            var man = <span class="l220">{"name":"tim","age":18}</span>;
-                        </span>
-                    </p>
-                    <p style="text-align: left; font-size: 9px;">
-                        <input type="checkbox" id="renamePrivateFunction" checked>Rename Private Function<br>
-                        <span style="font-size: 13px;">
-                            function demo(){
-                                var age = 99;
-                                function <span class="l220">demo_sub</span>(){
-                                }
-                            }
-                        </span>
-                        <span class="l221">becames</span>
-                        <span style="font-size: 16px;">
-                            function demo(){
-                                var age = 99;
-                                function <span class="l220">_0x62a87c</span>(){
-                                }
-                            }
-                        </span>
-                    </p>
-                    <p style="text-align: left; font-size: 9px;">
-                        <input type="checkbox" id="renamePrivateVariable" checked>Rename Private Variable<br>
-                        <span style="font-size: 13px;">
-                            function demo(){
-                            var <span class="l220">age</span>=99;
-                            }
-                        </span>
-                        <span class="l221">becames</span>
-                        <span style="font-size: 16px;">
-                            function demo(){
-                            var <span class="l220">_0xk$r</span>=99;
-                            }
-                        </span>
-                    </p>
-                    <p style="text-align: left; font-size: 9px;">
-                        <input type="checkbox" id="privateVariableToFunctionParam" checked>Private Variable To Function Param<br>
-                        <span style="font-size: 13px;">
-                            function demo(){
-                                <span class="l220">let v1 = 1;</span>
-                                var v2 = 2;
-                                <span class="l220">const v3 = 3;</span>
-                            }
-                        </span>
-                        <span class="l221">becames</span>
-                        <span style="font-size: 16px;">
-                            function demo(<span class="l220">v1，v3</span>) {
-                                <span class="l220">v1 = 1;</span>
-                                var v2 = 2;
-                                <span class="l220">v3 = 3;</span>
-                            }
-                        </span>
-                    </p>
-                    <p style="text-align: left; font-size: 9px;">
-                        <input type="checkbox" id="numericLiteralEncode" checked>Numeric Literal Encode<br>
-                        <span style="font-size: 13px;">
-                            var num = <span class="l220">123</span>;
-                        </span>
-                        <span class="l221">becames</span>
-                        <span style="font-size: 16px;">
-                            var num = <span class="l220">683517 ^ 683398</span>;
-                        </span>
-                    </p>
-                    <p style="text-align: left; font-size: 9px;">
-                        <input type="checkbox" id="booleanLiteralEncode" checked>Boolean Literal Encode<br>
-                        <span style="font-size: 13px;">
-                            var done = <span class="l220">true</span>;
-                        </span>
-                        <span class="l221">becames</span>
-                        <span style="font-size: 16px;">
-                            var done = <span class="l220">!![]</span>;
-                        </span>
-                    </p>
-                    <p style="text-align: left; font-size: 9px;">
-                        <input type="checkbox" id="dotPunctuationToBracket" checked>Dot Punctuation To Bracket<br>
-                        <span style="font-size: 13px;">
-                            var weGet = <span class="l220">we.get</span>;
-                        </span>
-                        <span class="l221">becames</span>
-                        <span style="font-size: 16px;">
-                            var weGet = <span class="l220">we["\u0067\u0065\u0074"]</span>;
-                        </span>
-                    </p>
-                    <p style="text-align: left; font-size: 9px;">
-                        <input type="checkbox" id="StringToUnicode" checked>String To Unicode<br>
-                        <span style="font-size: 13px;">
-                            var js = <span class="l220">"JS"</span>;
-                        </span>
-                        <span class="l221">becames</span>
-                        <span style="font-size: 16px;">
-                            var js = <span class="l220">"\u004a\u0053"</span>;
-                        </span>
-                    </p>
-                    <p style="text-align: left; font-size: 9px;">
-                        <input type="checkbox" id="reverseString" checked>Reverse String<br>
-                        <span style="font-size: 13px;">
-                            var name = <span class="l220">"tom"</span>;
-                        </span>
-                        <span class="l221">becames</span>
-                        <span style="font-size: 16px;">
-                            var name = <span class="l220">"mot".split("").reverse().join("")</span>;
-                        </span>
-                    </p>
-                    <p style="text-align: left; font-size: 9px;">
-                        <input type="checkbox" id="comments">comments<br>
-                        <input type="checkbox" id="compact" checked>compact
-                    </p>
-                    <button class="e1" id="obfuscate">Obfuscate</button>
-                </div>
-                
-                <div class="text-sub ts1">
-                    <span>
-                        For more features (options) and stronger obfuscation, please use <a class="l17" href="https://www.js-obfuscator.com" target="_blank" style="font-size: 23px;">js-obfuscator.com</a>.
-                        <br>
-                        More: <a class="l17" href="https://www.js-obfuscator.com/tools/anti-ai-js-obfuscator.html" target="_blank" style="font-size: 19px;">Anti-AI Reverse JavaScript Encryption</a>
-                        Copyright © js-obfuscator.github.io , All right reserved.
-                    </span>
-                </div>
-            </div>
-        </div>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="JS-Obfuscator home">
+      <span class="brand-glyph"><i>JS</i><b>/</b><i>O</i></span>
+      <span class="brand-copy"><strong>JS-OBFUSCATOR</strong><small>SIMPLE · PRIVATE · LOCAL</small></span>
+    </a>
+    <nav aria-label="Primary navigation">
+      <a href="#obfuscator" class="active">Obfuscate</a>
+      <a href="#options">Options</a>
+      <a href="#how">How</a>
+      <a href="#more-tools">More tools</a>
+    </nav>
+    <div class="header-meta">
+      <span><i></i>Local engine ready</span>
+      <b>EN / 01</b>
     </div>
-    <script>
-       window.onload = function(){
-            document.getElementById("loading").style.display = "none";
-            document.getElementById("content").style.display = "block";
-            }
-        function clean(){
-            document.getElementById("code").value = "";
-            document.getElementById("btn1").click();
-        }
-        function read(){
-            var file_to_read = document.getElementById("read").files[0];
-            var file_reader = new FileReader();
-            file_reader.onload = function(file_loaded_event){
-                var textFromFileLoaded = file_loaded_event.target.result;
-                document.getElementById("code").value = textFromFileLoaded;
-            };
-            file_reader.readAsText(file_to_read);
-            document.getElementById("btn1").click();
-        }
-        function save(){
-            var textToSave = document.getElementById("encode").value;
-            if(textToSave.length == 0){
-                alert("Nothing can be save, Do obfuscate first.");
-                return;
-            }
-            var textToSaveAsBlob = new Blob([textToSave], {type:"text/plain"});
-            var textToSaveAsURL = window.URL.createObjectURL(textToSaveAsBlob);
-            var fileNameToSaveAs = (new Date).getTime() + ".js";
-            var a = document.createElement("a");
-            a.download = fileNameToSaveAs;
-            a.href = textToSaveAsURL;
-            a.style.display = "none";
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a)
-        }
-    </script>
-    <script src="free-obfuscate-bundle.js"></script>
-</body>
+    <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false"><span></span><span></span></button>
+  </header>
 
+  <main id="top">
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="hero-label"><span>JAVASCRIPT OBFUSCATION</span><b>EST. 2017</b></div>
+        <h1>Your code works.<br><em>Its logic<br class="mobile-break"> disappears.</em></h1>
+        <p>Transform readable JavaScript into a hardened production artifact. Thirteen protection modules, one precise workflow, zero server uploads.</p>
+        <div class="hero-actions">
+          <a class="primary-action" href="#obfuscator"><span>Obfuscate JavaScript</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M14 7l5 5-5 5"/></svg></a>
+          <a class="text-action" href="#how">See how it works <span>↓</span></a>
+        </div>
+        <div class="hero-footnote"><span>ECMASCRIPT</span><i></i><span>CLIENT-SIDE</span><i></i><span>ZERO CONFIG</span></div>
+      </div>
+
+      <div class="prism-stage" id="prism-stage" aria-hidden="true">
+        <div class="prism-aura"></div>
+        <div class="prism-plane plane-one"><span>const</span><b>_0x7A</b><i>{...}</i></div>
+        <div class="prism-plane plane-two"><span>function</span><b>encode</b><i>()</i></div>
+        <div class="prism-plane plane-three"><span>return</span><b>secure</b><i>;</i></div>
+        <div class="prism-core"><span>{</span><strong>JS</strong><span>}</span></div>
+        <svg class="prism-orbit" viewBox="0 0 600 500">
+          <defs>
+            <linearGradient id="orbit-gradient" x1="0" x2="1"><stop stop-color="#315cff" stop-opacity="0"/><stop offset=".5" stop-color="#315cff"/><stop offset="1" stop-color="#8d63ff" stop-opacity="0"/></linearGradient>
+          </defs>
+          <path d="M70 277C110 90 486 78 536 259C584 435 147 488 70 277Z"/>
+          <path d="M126 389C34 229 212 48 397 112C585 176 561 411 352 440"/>
+          <circle cx="112" cy="202" r="4"/><circle cx="493" cy="327" r="4"/><circle cx="365" cy="102" r="3"/>
+        </svg>
+        <div class="prism-note note-one"><span>INPUT</span><strong>Readable syntax</strong></div>
+        <div class="prism-note note-two"><span>OUTPUT</span><strong>Protected artifact</strong></div>
+        <div class="prism-index">01—OBFUSCATION FIELD</div>
+      </div>
+    </section>
+
+    <section class="trust-bar" aria-label="Product qualities">
+      <div><span>01</span><strong>Private by default</strong><small>Your source never leaves this browser.</small></div>
+      <div><span>02</span><strong>Production ready</strong><small>Download a deployable JavaScript file.</small></div>
+      <div><span>03</span><strong>Precisely configurable</strong><small>Activate only the modules you need.</small></div>
+    </section>
+
+    <section class="studio-section" id="obfuscator" aria-labelledby="studio-title">
+      <div class="section-heading">
+        <div><span class="overline">OBFUSCATE JAVASCRIPT</span><h2 id="studio-title">One workspace.<br>Complete control.</h2></div>
+        <p>Paste or import JavaScript, tune the protection profile, then generate and export the transformed result.</p>
+      </div>
+
+      <div class="studio-shell" id="studio-shell">
+        <div class="studio-topbar">
+          <div class="session"><span>SESSION</span><strong id="session-id">OB—7A31</strong></div>
+          <div class="pipeline" aria-label="Obfuscation steps">
+            <span class="done"><i>1</i>Source</span><b></b>
+            <span class="current"><i>2</i>Strategy</span><b></b>
+            <span><i>3</i>Artifact</span>
+          </div>
+          <div class="runtime"><i></i><span>RUNTIME</span><strong>LOCAL</strong></div>
+        </div>
+
+        <div class="studio-grid">
+          <article class="editor source-editor">
+            <div class="panel-head">
+              <div><span class="panel-index">A</span><strong>Source</strong><small>main.js</small></div>
+              <div class="panel-actions">
+                <button id="clear-button" type="button">Clear</button>
+                <button id="upload-button" type="button">Import</button>
+                <input id="file-input" type="file" accept=".js,.mjs,.cjs,.txt" hidden>
+              </div>
+            </div>
+            <div class="code-field">
+              <div class="line-numbers" id="source-lines" aria-hidden="true">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8</div>
+              <textarea id="code" aria-label="JavaScript source code" spellcheck="false" placeholder="Paste JavaScript here...">(function () {
+  const domain = "js-obfuscator.com";
+  const fromYear = 2017;
+  const copyright = function () {
+    return `(c)${fromYear}-${new Date().getFullYear()},${domain}`;
+  };
+  console.log(copyright());
+})();</textarea>
+            </div>
+            <div class="panel-status"><span><i></i>EDITABLE</span><strong id="source-stats">8 lines · 217 chars</strong></div>
+          </article>
+
+          <aside class="strategy-panel" aria-labelledby="strategy-title">
+            <div class="strategy-head"><span>OBFUSCATION SETTINGS</span><h3 id="strategy-title">Options</h3></div>
+            <div class="preset-control" aria-label="Protection preset">
+              <button type="button" data-preset="light">Light</button>
+              <button type="button" data-preset="balanced" class="active">Balanced</button>
+              <button type="button" data-preset="maximum">Maximum</button>
+            </div>
+            <div class="strength-card">
+              <div class="strength-orb"><span id="strength-value">82</span><small>%</small></div>
+              <div><span>PROTECTION SCORE</span><strong id="strength-label">Balanced</strong><small>Recommended for web delivery</small></div>
+            </div>
+            <div class="strategy-stats">
+              <div><span>ACTIVE MODULES</span><strong id="module-count">9 / 13</strong></div>
+              <div><span>SIZE IMPACT</span><strong id="size-impact">+18%</strong></div>
+            </div>
+            <button class="obfuscate-button" id="obfuscate" type="button">
+              <span class="beam"></span>
+              <span class="button-copy"><small>RUN LOCAL ENGINE</small><strong>Obfuscate code</strong></span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M14 7l5 5-5 5"/></svg>
+            </button>
+            <p class="local-note"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M6.5 8V6a3.5 3.5 0 017 0v2M5 8h10v8H5z"/></svg>Processed locally in your browser</p>
+            <div class="module-drawer" id="options">
+              <div class="module-drawer-head"><div><span>13 AVAILABLE OPTIONS</span><h3>Obfuscation options</h3></div></div>
+              <div class="module-grid" id="module-grid">
+                <label class="module-item"><input id="zombieCode" type="checkbox" name="module" value="deadCode" checked><span class="check"></span><span><strong>Zombie Code</strong><small>Insert decoy execution paths</small></span><b>01</b></label>
+                <label class="module-item"><input id="regexpStandard" type="checkbox" name="module" value="regex" checked><span class="check"></span><span><strong>Regexp Standard</strong><small>Normalize regular expressions</small></span><b>02</b></label>
+                <label class="module-item"><input id="jsonStandard" type="checkbox" name="module" value="json" checked><span class="check"></span><span><strong>JSON Standard</strong><small>Normalize object key syntax</small></span><b>03</b></label>
+                <label class="module-item"><input id="renamePrivateFunction" type="checkbox" name="module" value="functionName" checked><span class="check"></span><span><strong>Rename Private Function</strong><small>Rename internal functions</small></span><b>04</b></label>
+                <label class="module-item"><input id="renamePrivateVariable" type="checkbox" name="module" value="variableName" checked><span class="check"></span><span><strong>Rename Private Variable</strong><small>Rename local identifiers</small></span><b>05</b></label>
+                <label class="module-item"><input id="privateVariableToFunctionParam" type="checkbox" name="module" value="parameters"><span class="check"></span><span><strong>Private Variable To Function Param</strong><small>Move variables to arguments</small></span><b>06</b></label>
+                <label class="module-item"><input id="numericLiteralEncode" type="checkbox" name="module" value="number" checked><span class="check"></span><span><strong>Numeric Literal Encode</strong><small>Encode values as expressions</small></span><b>07</b></label>
+                <label class="module-item"><input id="booleanLiteralEncode" type="checkbox" name="module" value="boolean" checked><span class="check"></span><span><strong>Boolean Literal Encode</strong><small>Replace boolean notation</small></span><b>08</b></label>
+                <label class="module-item"><input id="dotPunctuationToBracket" type="checkbox" name="module" value="member" checked><span class="check"></span><span><strong>Dot Punctuation To Bracket</strong><small>Convert dots to brackets</small></span><b>09</b></label>
+                <label class="module-item"><input id="StringToUnicode" type="checkbox" name="module" value="unicode" checked><span class="check"></span><span><strong>String To Unicode</strong><small>Encode readable strings</small></span><b>10</b></label>
+                <label class="module-item"><input id="reverseString" type="checkbox" name="module" value="reverse"><span class="check"></span><span><strong>Reverse String</strong><small>Reverse and restore at runtime</small></span><b>11</b></label>
+                <label class="module-item"><input id="comments" type="checkbox" name="module" value="comments"><span class="check"></span><span><strong>Comments</strong><small>Preserve source annotations</small></span><b>12</b></label>
+                <label class="module-item"><input id="compact" type="checkbox" name="module" value="compact"><span class="check"></span><span><strong>Compact</strong><small>Remove redundant whitespace</small></span><b>13</b></label>
+              </div>
+            </div>
+          </aside>
+
+          <article class="editor output-editor">
+            <div class="panel-head">
+              <div><span class="panel-index">B</span><strong>Artifact</strong><small>protected.js</small></div>
+              <div class="panel-actions">
+                <button id="copy-button" type="button">Copy</button>
+                <button id="download-button" type="button">Export</button>
+              </div>
+            </div>
+            <div class="code-field output-field">
+              <div class="line-numbers" id="output-lines" aria-hidden="true">1</div>
+              <textarea id="encode" aria-label="Obfuscated JavaScript result" readonly spellcheck="false" placeholder="Your artifact will appear here..."></textarea>
+              <div class="output-empty" id="output-empty">
+                <div class="empty-mark"><span></span><i></i><b></b></div>
+                <strong>Ready for transformation</strong>
+                <small>Run the engine to generate an artifact</small>
+              </div>
+              <div class="transform-overlay" id="transform-overlay" aria-hidden="true">
+                <span class="transform-line"></span>
+                <div class="transform-code">0x7A 01 F3 8C 4D E2 99 10</div>
+              </div>
+            </div>
+            <div class="panel-status"><span><i></i><b id="output-status">STANDBY</b></span><strong id="output-stats">No artifact</strong></div>
+          </article>
+        </div>
+
+      </div>
+      <p class="security-note"><span>NOTE</span> Obfuscation raises the cost of reverse engineering but does not replace server-side security. Never ship private keys or sensitive business logic to the browser.</p>
+    </section>
+
+    <section class="process-section" id="how" aria-labelledby="process-title">
+      <div class="process-intro"><span class="overline">HOW OBFUSCATION WORKS</span><h2 id="process-title">Readable goes in.<br>Resilient comes out.</h2></div>
+      <div class="process-flow">
+        <article><span>01 / INGEST</span><div class="process-icon">{ }</div><h3>Parse the source</h3><p>Read the JavaScript structure and prepare its syntax tree for transformation.</p></article>
+        <article><span>02 / TRANSFORM</span><div class="process-icon">⌁</div><h3>Apply the strategy</h3><p>Run each selected protection module through a deterministic local pipeline.</p></article>
+        <article><span>03 / DELIVER</span><div class="process-icon">↗</div><h3>Export the artifact</h3><p>Copy or download the protected file and move it directly into your build.</p></article>
+      </div>
+    </section>
+
+        <section class="continuum-section" id="more-tools" aria-labelledby="continuum-title">
+      <div class="continuum-grid">
+        <div class="continuum-intro">
+          <span class="overline">DEFENSE CONTINUUM</span>
+          <h2 id="continuum-title">Take protection<br><em>further.</em></h2>
+          <p>For more features, more configuration options, and stronger obfuscation, continue with the complete professional suite.</p>
+          <a class="suite-link" href="https://www.js-obfuscator.com/" target="_blank" rel="noopener">
+            <span><small>ADVANCED OBFUSCATION SUITE</small><strong>js-obfuscator.com</strong></span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M14 7l5 5-5 5"/></svg>
+          </a>
+        </div>
+
+        <div class="continuum-field" aria-hidden="true">
+          <div class="field-ring ring-outer"><i></i><b></b></div>
+          <div class="field-ring ring-inner"><i></i></div>
+          <div class="field-core"><span>JS</span><strong>+</strong></div>
+          <div class="field-label label-a"><span>STRONGER</span><b>CONTROL FLOW</b></div>
+          <div class="field-label label-b"><span>EXPANDED</span><b>DEFENSE LAYERS</b></div>
+          <div class="field-code">0xF7 / ADVANCED / ONLINE</div>
+        </div>
+
+        <a class="anti-ai-card" href="https://www.js-obfuscator.com/tools/anti-ai-js-obfuscator.html" target="_blank" rel="noopener">
+          <div class="anti-ai-top"><span>MORE / SPECIALIZED TOOL</span><i>02</i></div>
+          <div class="anti-ai-symbol" aria-hidden="true"><span>AI</span><i></i><b></b></div>
+          <div class="anti-ai-copy">
+            <h3>Anti-AI Reverse<br>JavaScript Encryption</h3>
+            <p>Add a specialized protection layer designed to increase resistance against automated code analysis.</p>
+          </div>
+          <div class="anti-ai-action"><span>Explore the tool</span><b>↗</b></div>
+        </a>
+      </div>
+
+      <div class="credit-rail">
+        <div><span>ORIGINAL PROJECT</span><strong>js-obfuscator.github.io</strong></div>
+        <div class="credit-signal" aria-hidden="true"><i></i><b></b><i></i><b></b><i></i></div>
+        <p>Copyright © js-obfuscator.github.io, all rights reserved.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <a class="brand" href="#top"><span class="brand-glyph"><i>JS</i><b>/</b><i>O</i></span><span class="brand-copy"><strong>JS-OBFUSCATOR</strong><small>SIMPLE · PRIVATE · LOCAL</small></span></a>
+    <p>A simple JavaScript obfuscation tool that runs locally in your browser.</p>
+    <div><span>© 2017—<b id="year"></b></span><a href="#top">BACK TO TOP ↑</a></div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"><i></i><span id="toast-message">Copied to clipboard</span></div>
+  <button id="btn1" type="button" hidden aria-hidden="true"></button>
+  <button id="btn2" type="button" hidden aria-hidden="true"></button>
+  <script src="./free-obfuscate-bundle.js?v=2"></script>
+  <script src="./app.js?v=2"></script>
+</body>
 </html>
