@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="A simple, private JavaScript obfuscation tool with configurable options and local processing.">
+  <meta name="description" content="A simple, private JavaScript obfuscation tool powered by javascript-obfuscator-lite, with configurable options and local processing.">
   <meta name="theme-color" content="#f4f6fb">
   <title>JS-Obfuscator — A Simple JavaScript Obfuscation Tool</title>
   <link rel="stylesheet" href="./style.css">
@@ -42,7 +42,7 @@
       <div class="hero-copy">
         <div class="hero-label"><span>JAVASCRIPT OBFUSCATION</span><b>EST. 2017</b></div>
         <h1>Your code works.<br><em>Its logic<br class="mobile-break"> disappears.</em></h1>
-        <p>Transform readable JavaScript into a hardened production artifact. Thirteen protection modules, one precise workflow, zero server uploads.</p>
+        <p>Transform readable JavaScript into a hardened production artifact. Fifteen protection modules, one precise workflow, zero server uploads.</p>
         <div class="hero-actions">
           <a class="primary-action" href="#obfuscator"><span>Obfuscate JavaScript</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M14 7l5 5-5 5"/></svg></a>
           <a class="text-action" href="#how">See how it works <span>↓</span></a>
@@ -129,7 +129,7 @@
               <div><span>PROTECTION SCORE</span><strong id="strength-label">Balanced</strong><small>Recommended for web delivery</small></div>
             </div>
             <div class="strategy-stats">
-              <div><span>ACTIVE MODULES</span><strong id="module-count">9 / 13</strong></div>
+              <div><span>ACTIVE MODULES</span><strong id="module-count">10 / 15</strong></div>
               <div><span>SIZE IMPACT</span><strong id="size-impact">+18%</strong></div>
             </div>
             <button class="obfuscate-button" id="obfuscate" type="button">
@@ -139,21 +139,23 @@
             </button>
             <p class="local-note"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M6.5 8V6a3.5 3.5 0 017 0v2M5 8h10v8H5z"/></svg>Processed locally in your browser</p>
             <div class="module-drawer" id="options">
-              <div class="module-drawer-head"><div><span>13 AVAILABLE OPTIONS</span><h3>Obfuscation options</h3></div></div>
+              <div class="module-drawer-head"><div><span>15 AVAILABLE OPTIONS</span><h3>Obfuscation options</h3></div></div>
               <div class="module-grid" id="module-grid">
-                <label class="module-item"><input id="zombieCode" type="checkbox" name="module" value="deadCode" checked><span class="check"></span><span><strong>Zombie Code</strong><small>Insert decoy execution paths</small></span><b>01</b></label>
-                <label class="module-item"><input id="regexpStandard" type="checkbox" name="module" value="regex" checked><span class="check"></span><span><strong>Regexp Standard</strong><small>Normalize regular expressions</small></span><b>02</b></label>
-                <label class="module-item"><input id="jsonStandard" type="checkbox" name="module" value="json" checked><span class="check"></span><span><strong>JSON Standard</strong><small>Normalize object key syntax</small></span><b>03</b></label>
-                <label class="module-item"><input id="renamePrivateFunction" type="checkbox" name="module" value="functionName" checked><span class="check"></span><span><strong>Rename Private Function</strong><small>Rename internal functions</small></span><b>04</b></label>
-                <label class="module-item"><input id="renamePrivateVariable" type="checkbox" name="module" value="variableName" checked><span class="check"></span><span><strong>Rename Private Variable</strong><small>Rename local identifiers</small></span><b>05</b></label>
-                <label class="module-item"><input id="privateVariableToFunctionParam" type="checkbox" name="module" value="parameters"><span class="check"></span><span><strong>Private Variable To Function Param</strong><small>Move variables to arguments</small></span><b>06</b></label>
-                <label class="module-item"><input id="numericLiteralEncode" type="checkbox" name="module" value="number" checked><span class="check"></span><span><strong>Numeric Literal Encode</strong><small>Encode values as expressions</small></span><b>07</b></label>
-                <label class="module-item"><input id="booleanLiteralEncode" type="checkbox" name="module" value="boolean" checked><span class="check"></span><span><strong>Boolean Literal Encode</strong><small>Replace boolean notation</small></span><b>08</b></label>
-                <label class="module-item"><input id="dotPunctuationToBracket" type="checkbox" name="module" value="member" checked><span class="check"></span><span><strong>Dot Punctuation To Bracket</strong><small>Convert dots to brackets</small></span><b>09</b></label>
-                <label class="module-item"><input id="StringToUnicode" type="checkbox" name="module" value="unicode" checked><span class="check"></span><span><strong>String To Unicode</strong><small>Encode readable strings</small></span><b>10</b></label>
-                <label class="module-item"><input id="reverseString" type="checkbox" name="module" value="reverse"><span class="check"></span><span><strong>Reverse String</strong><small>Reverse and restore at runtime</small></span><b>11</b></label>
-                <label class="module-item"><input id="comments" type="checkbox" name="module" value="comments"><span class="check"></span><span><strong>Comments</strong><small>Preserve source annotations</small></span><b>12</b></label>
-                <label class="module-item"><input id="compact" type="checkbox" name="module" value="compact"><span class="check"></span><span><strong>Compact</strong><small>Remove redundant whitespace</small></span><b>13</b></label>
+                <label class="module-item"><input id="stringArray" type="checkbox" name="module" value="stringArray" checked><span class="check"></span><span><strong>String Array</strong><small>Move strings into a runtime array</small></span><b>01</b></label>
+                <label class="module-item"><input id="stringReverse" type="checkbox" name="module" value="stringReverse" checked><span class="check"></span><span><strong>String Reverse</strong><small>Reverse and restore strings at runtime</small></span><b>02</b></label>
+                <label class="module-item"><input id="stringUnicode" type="checkbox" name="module" value="stringUnicode" checked><span class="check"></span><span><strong>String Unicode</strong><small>Escape strings as Unicode sequences</small></span><b>03</b></label>
+                <label class="module-item"><input id="memberExpression" type="checkbox" name="module" value="memberExpression" checked><span class="check"></span><span><strong>Member Expression</strong><small>Convert dot access to bracket access</small></span><b>04</b></label>
+                <label class="module-item"><input id="numericLiteral" type="checkbox" name="module" value="numericLiteral" checked><span class="check"></span><span><strong>Numeric Literal</strong><small>Encode small integers as expressions</small></span><b>05</b></label>
+                <label class="module-item"><input id="binaryExpression" type="checkbox" name="module" value="binaryExpression" checked><span class="check"></span><span><strong>Binary Expression</strong><small>Wrap binary expressions in calls</small></span><b>06</b></label>
+                <label class="module-item"><input id="booleanLiteral" type="checkbox" name="module" value="booleanLiteral" checked><span class="check"></span><span><strong>Boolean Literal</strong><small>Replace booleans with unary expressions</small></span><b>07</b></label>
+                <label class="module-item"><input id="assignmentJunk" type="checkbox" name="module" value="assignmentJunk" checked><span class="check"></span><span><strong>Assignment Junk</strong><small>Wrap literal assignments in functions</small></span><b>08</b></label>
+                <label class="module-item"><input id="zombieCode" type="checkbox" name="module" value="zombieCode" checked><span class="check"></span><span><strong>Zombie Code</strong><small>Insert decoy declarations</small></span><b>09</b></label>
+                <label class="module-item"><input id="controlFlow" type="checkbox" name="module" value="controlFlow"><span class="check"></span><span><strong>Control Flow</strong><small>Flatten statement order into a dispatcher</small></span><b>10</b></label>
+                <label class="module-item"><input id="eval" type="checkbox" name="module" value="eval"><span class="check"></span><span><strong>Eval Encode</strong><small>Encode expressions with eval (CSP caution)</small></span><b>11</b></label>
+                <label class="module-item"><input id="renameGlobals" type="checkbox" name="module" value="renameGlobals"><span class="check"></span><span><strong>Rename Globals</strong><small>Rename top-level identifiers</small></span><b>12</b></label>
+                <label class="module-item"><input id="renameLocals" type="checkbox" name="module" value="renameLocals" checked><span class="check"></span><span><strong>Rename Locals</strong><small>Rename function-scoped identifiers</small></span><b>13</b></label>
+                <label class="module-item"><input id="comments" type="checkbox" name="module" value="comments"><span class="check"></span><span><strong>Comments</strong><small>Preserve source comments</small></span><b>14</b></label>
+                <label class="module-item"><input id="compact" type="checkbox" name="module" value="compact"><span class="check"></span><span><strong>Compact</strong><small>Remove redundant whitespace</small></span><b>15</b></label>
               </div>
             </div>
           </aside>
@@ -236,17 +238,59 @@
     </section>
   </main>
 
+  <section class="tool-directory" id="tool-directory" aria-labelledby="tool-directory-title">
+    <div class="tool-directory-head">
+      <div>
+        <span class="overline">TOOL DIRECTORY</span>
+        <h2 id="tool-directory-title">More ways to <em>protect</em> the web.</h2>
+      </div>
+      <p>Explore the JShaman family of JavaScript protection, minification, encoding, and bytecode tools.</p>
+    </div>
+    <nav class="tool-links" aria-label="More tools">
+      <a class="tool-link" href="https://www.jshaman.com" target="_blank" rel="noopener noreferrer">
+        <span class="tool-link-top"><span class="tool-link-index">01</span><span class="tool-link-arrow"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M14 7l5 5-5 5"/></svg></span></span>
+        <strong>JShaman JavaScript Obfuscator</strong>
+        <span class="tool-link-meta"><small>Professional JavaScript protection</small><b>jshaman.com</b></span>
+      </a>
+      <a class="tool-link" href="https://www.jsjiami.online" target="_blank" rel="noopener noreferrer">
+        <span class="tool-link-top"><span class="tool-link-index">02</span><span class="tool-link-arrow"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M14 7l5 5-5 5"/></svg></span></span>
+        <strong>JSJiaMi.online</strong>
+        <span class="tool-link-meta"><small>Online JavaScript encryption</small><b>jsjiami.online</b></span>
+      </a>
+      <a class="tool-link" href="https://www.js-obfuscator.com" target="_blank" rel="noopener noreferrer">
+        <span class="tool-link-top"><span class="tool-link-index">03</span><span class="tool-link-arrow"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M14 7l5 5-5 5"/></svg></span></span>
+        <strong>JS-Obfuscator</strong>
+        <span class="tool-link-meta"><small>Advanced obfuscation suite</small><b>js-obfuscator.com</b></span>
+      </a>
+      <a class="tool-link" href="https://www.jshaman.com/jsminify" target="_blank" rel="noopener noreferrer">
+        <span class="tool-link-top"><span class="tool-link-index">04</span><span class="tool-link-arrow"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M14 7l5 5-5 5"/></svg></span></span>
+        <strong>JS-Minify</strong>
+        <span class="tool-link-meta"><small>Minify and optimize JavaScript</small><b>jshaman.com/jsminify</b></span>
+      </a>
+      <a class="tool-link" href="https://www.jshaman.com/enhtml" target="_blank" rel="noopener noreferrer">
+        <span class="tool-link-top"><span class="tool-link-index">05</span><span class="tool-link-arrow"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M14 7l5 5-5 5"/></svg></span></span>
+        <strong>Html-Encode</strong>
+        <span class="tool-link-meta"><small>HTML entity encoding</small><b>jshaman.com/enhtml</b></span>
+      </a>
+      <a class="tool-link" href="https://www.jshaman.com/bytejs" target="_blank" rel="noopener noreferrer">
+        <span class="tool-link-top"><span class="tool-link-index">06</span><span class="tool-link-arrow"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M14 7l5 5-5 5"/></svg></span></span>
+        <strong>JS2ByteCode</strong>
+        <span class="tool-link-meta"><small>JavaScript to bytecode</small><b>jshaman.com/bytejs</b></span>
+      </a>
+    </nav>
+  </section>
+
   <footer>
     <a class="brand" href="#top"><span class="brand-glyph"><i>JS</i><b>/</b><i>O</i></span><span class="brand-copy"><strong>JS-OBFUSCATOR</strong><small>SIMPLE · PRIVATE · LOCAL</small></span></a>
-    <p>A simple JavaScript obfuscation tool that runs locally in your browser.</p>
+    <p>A simple JavaScript obfuscation tool that runs locally in your browser. Powered by <a href="https://www.npmjs.com/package/javascript-obfuscator-lite" target="_blank" rel="noopener">javascript-obfuscator-lite</a> <span id="engine-version"></span>.</p>
     <div><span>© 2017—<b id="year"></b></span><a href="#top">BACK TO TOP ↑</a></div>
   </footer>
 
   <div class="toast" id="toast" role="status" aria-live="polite"><i></i><span id="toast-message">Copied to clipboard</span></div>
   <button id="btn1" type="button" hidden aria-hidden="true"></button>
   <button id="btn2" type="button" hidden aria-hidden="true"></button>
-  <script src="./free-obfuscate-bundle.js?v=2"></script>
-  <script src="./app.js?v=2"></script>
+  <script src="./javascript-obfuscator-lite.js?v=1"></script>
+  <script src="./app.js?v=3"></script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3444646837112308" crossorigin="anonymous"></script>
 </body>
 </html>

@@ -17,9 +17,35 @@ const toastMessage = document.querySelector('#toast-message');
 let toastTimer;
 
 const presets = {
-  light: new Set(['variableName', 'unicode']),
-  balanced: new Set(['deadCode', 'regex', 'json', 'functionName', 'variableName', 'number', 'boolean', 'member', 'unicode']),
-  maximum: new Set(['deadCode', 'regex', 'json', 'functionName', 'variableName', 'parameters', 'number', 'boolean', 'member', 'unicode', 'reverse', 'compact'])
+  light: new Set(['stringUnicode', 'memberExpression', 'renameLocals']),
+  balanced: new Set([
+    'stringArray',
+    'stringReverse',
+    'stringUnicode',
+    'memberExpression',
+    'numericLiteral',
+    'binaryExpression',
+    'booleanLiteral',
+    'assignmentJunk',
+    'zombieCode',
+    'renameLocals'
+  ]),
+  maximum: new Set([
+    'stringArray',
+    'stringReverse',
+    'stringUnicode',
+    'memberExpression',
+    'numericLiteral',
+    'binaryExpression',
+    'booleanLiteral',
+    'assignmentJunk',
+    'zombieCode',
+    'controlFlow',
+    'eval',
+    'renameGlobals',
+    'renameLocals',
+    'compact'
+  ])
 };
 
 const lineMarkup = (value) => Array.from({ length: Math.max(1, value.split('\n').length) }, (_, index) => index + 1).join('<br>');
@@ -37,17 +63,19 @@ function activeModules() {
 function bundleOptions() {
   const active = activeModules();
   return {
-    zombieCode: active.has('deadCode'),
-    regexpStandard: active.has('regex'),
-    jsonStandard: active.has('json'),
-    renamePrivateFunction: active.has('functionName'),
-    renamePrivateVariable: active.has('variableName'),
-    privateVariableToFunctionParam: active.has('parameters'),
-    numericLiteralEncode: active.has('number'),
-    booleanLiteralEncode: active.has('boolean'),
-    dotPunctuationToBracket: active.has('member'),
-    StringToUnicode: active.has('unicode'),
-    reverseString: active.has('reverse'),
+    stringArray: active.has('stringArray'),
+    stringReverse: active.has('stringReverse'),
+    stringUnicode: active.has('stringUnicode'),
+    memberExpression: active.has('memberExpression'),
+    numericLiteral: active.has('numericLiteral'),
+    binaryExpression: active.has('binaryExpression'),
+    booleanLiteral: active.has('booleanLiteral'),
+    assignmentJunk: active.has('assignmentJunk'),
+    zombieCode: active.has('zombieCode'),
+    controlFlow: active.has('controlFlow'),
+    eval: active.has('eval'),
+    renameGlobals: active.has('renameGlobals'),
+    renameLocals: active.has('renameLocals'),
     comments: active.has('comments'),
     compact: active.has('compact')
   };
@@ -55,14 +83,22 @@ function bundleOptions() {
 
 function updateProfile(name) {
   const count = moduleInputs.filter((input) => input.checked).length;
-  const score = Math.min(98, 36 + count * 4.6);
+  const score = Math.min(98, 36 + count * 3.4);
   const labels = { light: 'Light', balanced: 'Balanced', maximum: 'Maximum', custom: 'Custom' };
-  document.querySelector('#module-count').textContent = `${count} / 13`;
+  document.querySelector('#module-count').textContent = `${count} / ${moduleInputs.length}`;
   document.querySelector('#strength-value').textContent = Math.round(score);
   document.querySelector('.strength-orb').style.background = `conic-gradient(var(--blue) 0 ${score}%, #dce1e9 ${score}%)`;
   document.querySelector('#strength-label').textContent = labels[name] || labels.custom;
-  document.querySelector('#size-impact').textContent = `+${Math.round(count * 2.1)}%`;
+  document.querySelector('#size-impact').textContent = `+${Math.round(count * 1.8)}%`;
   presetButtons.forEach((button) => button.classList.toggle('active', button.dataset.preset === name));
+}
+
+function applyPreset(name) {
+  const preset = presets[name];
+  moduleInputs.forEach((input) => {
+    input.checked = preset.has(input.value);
+  });
+  updateProfile(name);
 }
 
 function showToast(message) {
@@ -74,61 +110,12 @@ function showToast(message) {
 
 window.alert = (message) => showToast(String(message));
 
-function encodedName(seed) {
-  let hash = 0;
-  for (let index = 0; index < seed.length; index += 1) hash = ((hash << 5) - hash + seed.charCodeAt(index)) | 0;
-  return `_0x${Math.abs(hash).toString(16).slice(0, 6).padStart(6, 'a')}`;
-}
-
-function toUnicode(value) {
-  return value.split('').map((character) => {
-    const code = character.charCodeAt(0);
-    return code > 31 && code < 127 ? `\\u${code.toString(16).padStart(4, '0')}` : character;
-  }).join('');
-}
-
-function transformCode(code, modules) {
-  let result = code;
-  if (!modules.has('comments')) result = result.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/.*$/gm, '$1');
-  if (modules.has('regex')) result = result.replace(/\/([^/\n\\]+)\/([gimsuy]*)/g, (_, body, flags) => `new RegExp(${JSON.stringify(body)},${JSON.stringify(flags)})`);
-  if (modules.has('functionName')) {
-    const names = [...result.matchAll(/function\s+([A-Za-z_$][\w$]*)\s*\(/g)].map((match) => match[1]);
-    names.slice(1).forEach((name) => { result = result.replace(new RegExp(`\\b${name}\\b`, 'g'), encodedName(name)); });
-  }
-  if (modules.has('variableName')) {
-    const names = [...result.matchAll(/\b(?:const|let|var)\s+([A-Za-z_$][\w$]*)/g)].map((match) => match[1]);
-    names.forEach((name) => { result = result.replace(new RegExp(`\\b${name}\\b`, 'g'), encodedName(name)); });
-  }
-  if (modules.has('boolean')) result = result.replace(/\btrue\b/g, '!![]').replace(/\bfalse\b/g, '![]');
-  if (modules.has('number')) {
-    result = result.replace(/\b(\d{2,})\b/g, (match) => {
-      const value = Number(match);
-      if (!Number.isSafeInteger(value)) return match;
-      const mask = 59381;
-      return `(${value ^ mask}^${mask})`;
-    });
-  }
-  if (modules.has('member')) result = result.replace(/\.([A-Za-z_$][\w$]*)/g, (_, key) => `[${JSON.stringify(key)}]`);
-  if (modules.has('reverse')) {
-    result = result.replace(/(["'])([^"'\n\\]{3,})\1/g, (_, quote, text) => `${JSON.stringify(text.split('').reverse().join(''))}.split("").reverse().join("")`);
-  } else if (modules.has('unicode')) {
-    result = result.replace(/(["'])([^"'\n\\]+)\1/g, (_, quote, text) => `"${toUnicode(text)}"`);
-  }
-  if (modules.has('deadCode')) result = `const ${encodedName('integrity')}=(()=>{const _=[2,5,8];return _.length===3})();\n${result}`;
-  if (modules.has('compact')) result = result.replace(/\s+/g, ' ').replace(/\s*([{}();,:=+])\s*/g, '$1').trim();
-  return result;
-}
-
 sourceCode.addEventListener('input', updateSource);
 sourceCode.addEventListener('scroll', () => { sourceLines.scrollTop = sourceCode.scrollTop; });
 outputCode.addEventListener('scroll', () => { outputLines.scrollTop = outputCode.scrollTop; });
 
 moduleInputs.forEach((input) => input.addEventListener('change', () => updateProfile('custom')));
-presetButtons.forEach((button) => button.addEventListener('click', () => {
-  const preset = presets[button.dataset.preset];
-  moduleInputs.forEach((input) => { input.checked = preset.has(input.value); });
-  updateProfile(button.dataset.preset);
-}));
+presetButtons.forEach((button) => button.addEventListener('click', () => applyPreset(button.dataset.preset)));
 
 document.querySelector('#clear-button').addEventListener('click', () => {
   sourceCode.value = '';
@@ -154,7 +141,6 @@ obfuscateButton.addEventListener('click', () => {
     showToast('Add JavaScript source first');
     return;
   }
-  const bundleResult = outputCode.value;
   studioShell.classList.remove('complete');
   studioShell.classList.add('processing');
   obfuscateButton.classList.add('processing');
@@ -167,7 +153,11 @@ obfuscateButton.addEventListener('click', () => {
 
   setTimeout(() => {
     try {
-      const result = bundleResult || outputCode.value;
+      const engine = window.JavaScriptObfuscatorLite;
+      if (!engine || typeof engine.obfuscate !== 'function') {
+        throw new Error('The obfuscation engine did not load. Refresh the page and try again.');
+      }
+      const result = engine.obfuscate(source, bundleOptions());
       if (!result) throw new Error('The source could not be obfuscated. Check its syntax and try again.');
       outputCode.value = result;
       outputLines.innerHTML = lineMarkup(result);
@@ -265,5 +255,8 @@ if ('IntersectionObserver' in window && !reducedMotion) {
 
 document.querySelector('#year').textContent = new Date().getFullYear();
 document.querySelector('#session-id').textContent = `JS—${Math.random().toString(16).slice(2, 6).toUpperCase()}`;
+const engine = window.JavaScriptObfuscatorLite;
+const engineVersion = document.querySelector('#engine-version');
+if (engine && engineVersion) engineVersion.textContent = `v${engine.version}`;
 updateSource();
-updateProfile('balanced');
+applyPreset('balanced');
