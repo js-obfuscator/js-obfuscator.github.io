@@ -234,7 +234,7 @@ if (!reducedMotion) {
   prismStage.addEventListener('pointerleave', () => { prismStage.style.transform = ''; });
 }
 
-const revealItems = [...document.querySelectorAll('.section-heading, .studio-shell, .process-intro, .process-flow article, .trust-bar > div, .continuum-intro, .continuum-field, .anti-ai-card, .credit-rail')];
+const revealItems = [...document.querySelectorAll('.section-heading, .studio-shell, .process-intro, .process-flow article, .trust-bar > div, .plugins-heading, .plugin-card, .continuum-intro, .continuum-field, .anti-ai-card, .credit-rail')];
 revealItems.forEach((item, index) => {
   item.dataset.reveal = '';
   item.style.transitionDelay = `${Math.min(index % 3, 2) * 70}ms`;
@@ -260,3 +260,53 @@ const engineVersion = document.querySelector('#engine-version');
 if (engine && engineVersion) engineVersion.textContent = `v${engine.version}`;
 updateSource();
 applyPreset('balanced');
+'use strict';
+
+// Scroll spy: keep the navigation underline in sync with the visible section.
+(function setupSectionNavigation() {
+  const navigation = document.querySelector('.site-header nav');
+  if (!navigation) return;
+
+  const links = [...navigation.querySelectorAll('a[href^="#"]')];
+  const sections = links
+    .map((link) => {
+      const id = link.getAttribute('href').slice(1);
+      const target = document.getElementById(id);
+      return target ? { link, target } : null;
+    })
+    .filter(Boolean);
+
+  if (sections.length === 0) return;
+
+  let frame = 0;
+
+  function updateActiveSection() {
+    frame = 0;
+    const header = document.querySelector('.site-header');
+    const threshold = (header ? header.offsetHeight : 0) + 34;
+    let active = sections[0];
+
+    for (const section of sections) {
+      if (section.target.getBoundingClientRect().top <= threshold) {
+        active = section;
+      }
+    }
+
+    const atBottom = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 4;
+    if (atBottom) active = sections[sections.length - 1];
+
+    for (const section of sections) {
+      section.link.classList.toggle('active', section === active);
+    }
+  }
+
+  function requestUpdate() {
+    if (frame) return;
+    frame = window.requestAnimationFrame(updateActiveSection);
+  }
+
+  window.addEventListener('scroll', requestUpdate, { passive: true });
+  window.addEventListener('resize', requestUpdate, { passive: true });
+  window.addEventListener('load', requestUpdate, { once: true });
+  updateActiveSection();
+})();
